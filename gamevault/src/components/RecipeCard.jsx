@@ -26,12 +26,13 @@ function RecipeCard({
       className={`rounded-2xl border border-stone-200 border-l-[6px] ${estilo} bg-white p-6 shadow-md hover:shadow-xl transition duration-300`}
     >
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm font-bold uppercase text-rose-600">
-          {categoria}
-        </span>
+        <span className="text-sm font-bold uppercase text-rose-700">
+  {categoria}
+</span>
 
         <button
   onClick={onFavoritar}
+  aria-pressed={favorito}
   className={`text-3xl hover:scale-110 transition ${
     favorito ? "text-rose-500" : "text-rose-500"
   }`}
@@ -64,11 +65,12 @@ function RecipeCard({
         </button>
 
         <button
-          onClick={onRemover}
-          className="bg-stone-200 text-stone-700 px-5 py-2 rounded-lg font-semibold hover:bg-stone-300 transition"
-        >
-          Excluir
-        </button>
+  onClick={onRemover}
+  aria-label={`Excluir receita: ${titulo}`}
+  className="bg-stone-200 text-stone-700 px-5 py-2 rounded-lg font-semibold hover:bg-stone-300 transition"
+>
+   Excluir
+</button>
       </div>
     </article>
   )

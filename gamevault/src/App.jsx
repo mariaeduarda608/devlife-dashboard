@@ -5,6 +5,7 @@ import TaskForm from "./components/TaskForm"
 import Footer from "./components/Footer"
 
 function App() {
+  const [anuncio, setAnuncio] = useState("")
   const receitasIniciais = [
     {
       id: 1,
@@ -87,6 +88,7 @@ function App() {
       cor: novaReceita.categoria,
       favorito: false,
     }
+    setAnuncio(`Receita "${novaReceita.titulo}" adicionada.`)
 
     setReceitas((atual) => [...atual, receitaCompleta])
   }
@@ -116,9 +118,18 @@ function App() {
 
   return (
     <div className="min-h-screen bg-rose-50">
+      <a
+      href="#conteudo"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-stone-900 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
+    >
+      Pular para o conteúdo
+    </a>
       <Header />
+      <div aria-live="polite" role="status" className="sr-only">
+  {anuncio}
+</div>
 
-      <main className="max-w-6xl mx-auto px-6 py-10">
+      <main id="conteudo" className="max-w-6xl mx-auto px-6 py-10">
         <section className="mb-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-950">
             Receitas deliciosas
@@ -141,6 +152,7 @@ function App() {
                 <button
                   key={categoria}
                   onClick={() => setFiltro(categoria)}
+                  aria-pressed={filtro === categoria}
                   className={`px-5 py-2 rounded-full font-semibold transition ${
                     filtro === categoria
                       ? "bg-rose-500 text-white"

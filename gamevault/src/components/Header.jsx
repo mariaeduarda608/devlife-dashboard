@@ -1,6 +1,9 @@
+import { useState } from "react"
 import Relogio from "./Relogio"
 
 function Header() {
+  const [mostrarRelogio, setMostrarRelogio] = useState(true)
+
   return (
     <header className="bg-rose-900 text-white px-6 py-6 shadow-lg">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -19,7 +22,20 @@ function Header() {
             Horário atual
           </p>
 
-          <Relogio />
+          {mostrarRelogio && (
+            <span aria-hidden="true">
+              <Relogio />
+            </span>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setMostrarRelogio(!mostrarRelogio)}
+            aria-pressed={mostrarRelogio}
+            className="mt-2 text-xs border border-rose-300 px-3 py-1 rounded-lg hover:bg-rose-800 transition"
+          >
+            {mostrarRelogio ? "Esconder relógio" : "Mostrar relógio"}
+          </button>
         </div>
       </div>
     </header>
