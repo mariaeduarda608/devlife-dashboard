@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function RecipeForm({ onAdicionar }) {
+function TaskForm({ onAdicionar }) {
   const [titulo, setTitulo] = useState("")
   const [descricao, setDescricao] = useState("")
   const [categoria, setCategoria] = useState("")
@@ -21,11 +21,11 @@ function RecipeForm({ onAdicionar }) {
     }
 
     onAdicionar({
-      titulo,
-      descricao,
+      titulo: titulo.trim(),
+      descricao: descricao.trim(),
       categoria,
       dificuldade,
-      tempo,
+      tempo: tempo.trim(),
     })
 
     setTitulo("")
@@ -41,46 +41,49 @@ function RecipeForm({ onAdicionar }) {
       className="bg-white rounded-2xl shadow-md p-6 mb-10"
     >
       <h2 className="text-2xl font-bold text-rose-950 mb-5">
-        Adicionar nova receita
+      Adicionar nova receita
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-         <label
-  htmlFor="campo-titulo"
-  className="block text-sm font-semibold text-stone-700 mb-1"
->
-  Nome da receita
-</label>
+          <label
+            htmlFor="campo-titulo"
+            className="block text-sm font-semibold text-stone-700 mb-1"
+          >
+            Nome da receita
+          </label>
 
-<input
-  id="campo-titulo"
-  type="text"
+          <input
+            id="campo-titulo"
+            type="text"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             placeholder="Ex: Brigadeiro"
+            required
             className="w-full border border-stone-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-400"
           />
         </div>
 
         <div>
           <label
-  htmlFor="campo-dificuldade"
-  className="block text-sm font-semibold text-stone-700 mb-1"
->
-  Dificuldade
-</label>
+            htmlFor="campo-categoria"
+            className="block text-sm font-semibold text-stone-700 mb-1"
+          >
+            Categoria
+          </label>
 
-<select
-  id="campo-dificuldade"
-            onChange={(e) => setDificuldade(e.target.value)}
+          <select
+            id="campo-categoria"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+            required
             className={`w-full border border-stone-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-400 ${
               categoria === "" ? "text-stone-400" : "text-black"
             }`}
           >
-            <option value="" disabled hidden>
-  Ex: Bolos
-</option>
+            <option value="" disabled>
+              Ex: Bolos
+            </option>
             <option value="Chocolate">Chocolate</option>
             <option value="Biscoitos">Biscoitos</option>
             <option value="Bolos">Bolos</option>
@@ -90,35 +93,42 @@ function RecipeForm({ onAdicionar }) {
 
         <div className="md:col-span-2">
           <label
-  htmlFor="campo-descricao"
-  className="block text-sm font-semibold text-stone-700 mb-1"
->
-  Descrição da receita
-</label>
+            htmlFor="campo-descricao"
+            className="block text-sm font-semibold text-stone-700 mb-1"
+          >
+            Descrição da receita
+          </label>
 
-<textarea
-  id="campo-descricao"
+          <textarea
+            id="campo-descricao"
+            value={descricao}
             onChange={(e) => setDescricao(e.target.value)}
             placeholder="Ex: Brigadeiro cremoso de chocolate, perfeito para festas."
             rows="3"
+            required
             className="w-full border border-stone-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-400 resize-none"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-stone-700 mb-1">
+          <label
+            htmlFor="campo-dificuldade"
+            className="block text-sm font-semibold text-stone-700 mb-1"
+          >
             Dificuldade
           </label>
 
           <select
+            id="campo-dificuldade"
             value={dificuldade}
             onChange={(e) => setDificuldade(e.target.value)}
+            required
             className={`w-full border border-stone-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-400 ${
               dificuldade === "" ? "text-stone-400" : "text-black"
             }`}
           >
-            <option value="" disabled hidden>
-             Ex: Fácil
+            <option value="" disabled>
+              Ex: Fácil
             </option>
             <option value="Fácil">Fácil</option>
             <option value="Médio">Médio</option>
@@ -128,17 +138,19 @@ function RecipeForm({ onAdicionar }) {
 
         <div>
           <label
-  htmlFor="campo-descricao"
-  className="block text-sm font-semibold text-stone-700 mb-1"
->
-  Descrição da receita
-</label>
+            htmlFor="campo-tempo"
+            className="block text-sm font-semibold text-stone-700 mb-1"
+          >
+            Tempo de preparo
+          </label>
 
-<textarea
-  id="campo-descricao"
+          <input
+            id="campo-tempo"
+            type="text"
             value={tempo}
             onChange={(e) => setTempo(e.target.value)}
             placeholder="Ex: 30 min"
+            required
             className="w-full border border-stone-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-400"
           />
         </div>
@@ -154,4 +166,4 @@ function RecipeForm({ onAdicionar }) {
   )
 }
 
-export default RecipeForm
+export default TaskForm

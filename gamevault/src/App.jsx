@@ -3,6 +3,8 @@ import Header from "./components/Header"
 import RecipeCard from "./components/RecipeCard"
 import TaskForm from "./components/TaskForm"
 import Footer from "./components/Footer"
+import StatusRede from "./components/StatusRede"
+import InstallPrompt from "./components/InstallPrompt"
 
 function App() {
   const [anuncio, setAnuncio] = useState("")
@@ -125,6 +127,8 @@ function App() {
       Pular para o conteúdo
     </a>
       <Header />
+      <StatusRede />
+      <InstallPrompt />
       <div aria-live="polite" role="status" className="sr-only">
   {anuncio}
 </div>
