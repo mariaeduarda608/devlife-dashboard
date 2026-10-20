@@ -5,6 +5,9 @@ import TaskForm from "./components/TaskForm"
 import Footer from "./components/Footer"
 import StatusRede from "./components/StatusRede"
 import InstallPrompt from "./components/InstallPrompt"
+import NotificationPrompt from "./components/NotificationPrompt"
+import { notificarLocal } from "./notifications"
+import { agendarSincronizacao } from "./backgroundSync"
 
 function App() {
   const [anuncio, setAnuncio] = useState("")
@@ -82,18 +85,46 @@ function App() {
   useEffect(() => {
     localStorage.setItem("sweetbite-receitas", JSON.stringify(receitas))
   }, [receitas])
+useEffect(() => {
+  if (!("serviceWorker" in navigator)) return
 
-  function adicionarReceita(novaReceita) {
-    const receitaCompleta = {
-      ...novaReceita,
-      id: Date.now(),
-      cor: novaReceita.categoria,
-      favorito: false,
+  function receberMensagem(evento) {
+    if (evento.data?.tipo === "SINCRONIZADO") {
+      setAnuncio("Sincronização concluída com sucesso!")
     }
-    setAnuncio(`Receita "${novaReceita.titulo}" adicionada.`)
-
-    setReceitas((atual) => [...atual, receitaCompleta])
   }
+
+  navigator.serviceWorker.addEventListener("message", receberMensagem)
+
+  return () => {
+    navigator.serviceWorker.removeEventListener("message", receberMensagem)
+  }
+}, [])
+function avisarMudancaOffline() {
+  if (!navigator.onLine) {
+    agendarSincronizacao("sincronizar-receitas")
+
+    setAnuncio(
+      "Receita salva localmente. A sincronização será tentada quando a conexão voltar."
+    )
+  }
+}
+  function adicionarReceita(novaReceita) {
+  const receitaCompleta = {
+    ...novaReceita,
+    id: Date.now(),
+    cor: novaReceita.categoria,
+    favorito: false,
+  }
+
+  setAnuncio(`Receita "${novaReceita.titulo}" adicionada.`)
+  setReceitas((atual) => [...atual, receitaCompleta])
+  avisarMudancaOffline()
+
+  notificarLocal("Receita adicionada ao SweetBite!", {
+    body: `A receita "${novaReceita.titulo}" foi adicionada com sucesso.`,
+  })
+}
 
   function removerReceita(id) {
     setReceitas((atual) =>
@@ -129,6 +160,7 @@ function App() {
       <Header />
       <StatusRede />
       <InstallPrompt />
+      <NotificationPrompt />
       <div aria-live="polite" role="status" className="sr-only">
   {anuncio}
 </div>
